@@ -8,6 +8,7 @@ package mx.com.vrsa9208.sifiplibrary.test;
 import mx.com.vrsa9208.sifiplibrary.dao.UsuarioDao;
 import mx.com.vrsa9208.sifiplibrary.dao.impl.UsuarioDaoJDBC;
 import mx.com.vrsa9208.sifiplibrary.model.Usuario;
+import mx.com.vrsa9208.sifiplibrary.util.DateHelper;
 
 /**
  *
@@ -26,6 +27,7 @@ public class UsuarioTest {
         UsuarioTest test = new UsuarioTest();
         
         test.add();
+        test.getUsuario(6);
     }
     
     public void add(){
@@ -33,8 +35,24 @@ public class UsuarioTest {
         usuario.setNombre("Omar");
         usuario.setPrimerApellido("Santiago");
         usuario.setSegundoApellido("Sánchez");
-        //usuario.setEmail("olss@gmail.com");
+        usuario.setEmail("olss@gmail.com");
         usuario.setPassword("12345");
         this.dao.add(usuario);
+    }
+    
+    public void getUsuario(int id){
+        Usuario usuario = this.dao.getById(id);
+        if(usuario != null){
+            System.out.println(usuario.getId());
+            System.out.println(usuario.getNombre());
+            System.out.println(usuario.getPrimerApellido());
+            System.out.println(usuario.getSegundoApellido());
+            System.out.println(usuario.getEmail());
+            System.out.println(DateHelper.CalendarToString(usuario.getFechaCreacion()));
+            System.out.println(usuario.isActivo());
+        }
+        else{
+            System.out.println("No hay usuario con el id " + id);
+        }
     }
 }

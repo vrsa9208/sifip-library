@@ -81,5 +81,40 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
     public List<Usuario> get() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public Usuario getById(int id) {
+        String query = "SELECT * FROM usuario WHERE id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Usuario usuario = null;
+        
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                usuario = new Usuario();
+                usuario.setId(resultSet.getInt("id"));
+                usuario.setNombre(resultSet.getString("nombre"));
+                usuario.setPrimerApellido(resultSet.getString("primer_apellido"));
+                usuario.setSegundoApellido(resultSet.getString("segundo_apellido"));
+                usuario.setEmail(resultSet.getString("email"));
+                usuario.setPassword(null);
+                usuario.setFechaCreacion(DateHelper.dateToGregorianCalendar(resultSet.getDate("fecha_creacion")));
+                usuario.setActivo(resultSet.getBoolean("activo"));
+            }
+        } catch(SQLException ex){
+            Log.error(ex.getMessage());
+            return null;
+        } finally{
+            try{ if(resultSet != null) resultSet.close();} catch(Exception ex){}
+            try{ if(preparedStatement != null) preparedStatement.close();} catch(Exception ex){}
+            try{ if(connection != null) connection.close();} catch(Exception ex){}
+        }
+        return usuario;
+    }
     
 }

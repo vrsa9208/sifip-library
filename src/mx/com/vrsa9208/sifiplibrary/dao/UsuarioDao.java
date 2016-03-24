@@ -18,5 +18,6 @@ public interface UsuarioDao {
     Usuario update(Usuario usuario);
     boolean delete(int id);
     List<Usuario> get();
+    Usuario getById(int id);
     
 }
