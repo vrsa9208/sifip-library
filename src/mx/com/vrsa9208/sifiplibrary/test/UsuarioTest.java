@@ -26,8 +26,9 @@ public class UsuarioTest {
         System.out.println("Usuario Test");
         UsuarioTest test = new UsuarioTest();
         
-        test.add();
-        test.getUsuario(6);
+        //test.add();
+        //test.getById(6);
+        test.delete(1);
     }
     
     public void add(){
@@ -40,7 +41,7 @@ public class UsuarioTest {
         this.dao.add(usuario);
     }
     
-    public void getUsuario(int id){
+    public void getById(int id){
         Usuario usuario = this.dao.getById(id);
         if(usuario != null){
             System.out.println(usuario.getId());
@@ -54,5 +55,9 @@ public class UsuarioTest {
         else{
             System.out.println("No hay usuario con el id " + id);
         }
+    }
+    
+    public void delete(int id){
+        System.out.println(this.dao.delete(id));
     }
 }

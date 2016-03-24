@@ -74,7 +74,26 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
 
     @Override
     public boolean delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query = "DELETE FROM usuario WHERE id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean ret = false;
+        
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            ret = preparedStatement.executeUpdate() == 1;
+            
+        } catch(SQLException ex){
+            Log.error(ex.getMessage());
+            return false;
+        } finally{
+            try { if(preparedStatement != null) preparedStatement.close();} catch(Exception ex){}
+            try { if(connection != null) connection.close();} catch(Exception ex){}
+        }
+        
+        return ret;
     }
 
     @Override
