@@ -19,5 +19,7 @@ public interface UsuarioDao {
     boolean delete(int id);
     List<Usuario> get();
     Usuario getById(int id);
+    boolean updatePassword(int id, String password);
+    Usuario getByEmailAndPassword(String email, String password);
     
 }

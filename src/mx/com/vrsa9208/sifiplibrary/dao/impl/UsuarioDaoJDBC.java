@@ -191,5 +191,37 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
         usuario.setActivo(resultSet.getBoolean("activo"));
         return usuario;
     }
+
+    @Override
+    public boolean updatePassword(int id, String password) {
+        String query = "UPDATE usuario " +
+                        "SET password = SHA(?) " +
+                        "WHERE id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean operacionExitosa = false;
+        
+        try{
+            connection = super.dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, password);
+            preparedStatement.setInt(2, id);
+            if(preparedStatement.executeUpdate() == 1) operacionExitosa = true;
+            
+        } catch(SQLException ex){
+            Log.error(ex.getMessage());
+            return false;
+        } finally{
+            try { if(preparedStatement != null) preparedStatement.close();} catch(Exception ex){}
+            try { if(connection != null) connection.close();} catch(Exception ex){}
+        }
+        
+        return operacionExitosa;
+    }
+
+    @Override
+    public Usuario getByEmailAndPassword(String email, String password) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
 }
