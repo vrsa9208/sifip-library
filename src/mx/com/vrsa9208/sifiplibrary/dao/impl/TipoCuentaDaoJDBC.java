@@ -132,12 +132,58 @@ public class TipoCuentaDaoJDBC extends SifipDB implements TipoCuentaDao{
 
     @Override
     public TipoCuenta getById(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query = "SELECT * FROM tipo_cuenta WHERE id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        TipoCuenta tipoCuenta = null;
+        
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                tipoCuenta = this.parseTipoCuenta(resultSet);
+            }
+        } catch(SQLException ex){
+            Log.error(ex.getMessage());
+            return null;
+        } finally{
+            try{ if(resultSet != null) resultSet.close();} catch(Exception ex){}
+            try{ if(preparedStatement != null) preparedStatement.close();} catch(Exception ex){}
+            try{ if(connection != null) connection.close();} catch(Exception ex){}
+        }
+        return tipoCuenta;
     }
 
     @Override
     public List<TipoCuenta> getByActivo(boolean activo) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<TipoCuenta> lista = new ArrayList<TipoCuenta>();
+        String query = "SELECT * FROM tipo_cuenta " +
+                        "WHERE activo = ? ORDER BY id";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setBoolean(1, activo);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                TipoCuenta temporal = this.parseTipoCuenta(resultSet);
+                lista.add(temporal);
+            }
+        } catch(SQLException ex){
+            Log.error(ex.getMessage());
+            return null;
+        } finally{
+            try{ if(resultSet != null)resultSet.close();} catch(Exception ex){}
+            try{ if(preparedStatement != null)preparedStatement.close();} catch(Exception ex){}
+            try{ if(connection != null)connection.close();} catch(Exception ex){}
+        }
+        return lista;
     }
     
     private TipoCuenta parseTipoCuenta(ResultSet resultSet) throws SQLException{
