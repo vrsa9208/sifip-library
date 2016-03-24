@@ -68,7 +68,37 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
 
     @Override
     public Usuario update(Usuario usuario) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query = "UPDATE usuario " +
+                        "SET nombre = ?, " +
+                        "primer_apellido = ?, " +
+                        "segundo_apellido = ?, " +
+                        "email = ?, " +
+                        "activo = ? " +
+                        "WHERE id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean operacionExitosa = false;
+        
+        try{
+            connection = super.dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, usuario.getNombre());
+            preparedStatement.setString(2, usuario.getPrimerApellido());
+            preparedStatement.setString(3, usuario.getSegundoApellido());
+            preparedStatement.setString(4, usuario.getEmail());
+            preparedStatement.setBoolean(5, usuario.isActivo());
+            preparedStatement.setInt(6, usuario.getId());
+            if(preparedStatement.executeUpdate() == 1) operacionExitosa = true;
+            
+        } catch(SQLException ex){
+            Log.error(ex.getMessage());
+            return null;
+        } finally{
+            try { if(preparedStatement != null) preparedStatement.close();} catch(Exception ex){}
+            try { if(connection != null) connection.close();} catch(Exception ex){}
+        }
+        
+        return operacionExitosa ? usuario : null;
     }
 
     @Override
@@ -111,7 +141,8 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
                 Usuario temporal = this.parseUsuario(resultSet);
                 lista.add(temporal);
             }
-        } catch(Exception ex){
+        } catch(SQLException ex){
+            Log.error(ex.getMessage());
             return null;
         } finally{
             try{ if(resultSet != null)resultSet.close();} catch(Exception ex){}

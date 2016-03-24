@@ -30,7 +30,8 @@ public class UsuarioTest {
         //test.add();
         //test.getById(6);
         //test.delete(1);
-        test.get();
+        //test.get();
+        test.update();
     }
     
     public void add(){
@@ -65,5 +66,11 @@ public class UsuarioTest {
     
     public void get(){
         List<Usuario> usuarios = this.dao.get();
+    }
+    
+    public void update(){
+        Usuario usuario = this.dao.getById(3);
+        usuario.setActivo(true);
+        this.dao.update(usuario);
     }
 }
