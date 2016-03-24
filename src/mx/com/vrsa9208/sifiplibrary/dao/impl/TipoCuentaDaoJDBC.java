@@ -9,11 +9,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import mx.com.vrsa9208.sifiplibrary.dao.SifipDB;
 import mx.com.vrsa9208.sifiplibrary.dao.TipoCuentaDao;
 import mx.com.vrsa9208.sifiplibrary.model.TipoCuenta;
-import mx.com.vrsa9208.sifiplibrary.util.DateHelper;
 import mx.com.vrsa9208.sifiplibrary.util.Log;
 
 /**
@@ -81,12 +81,53 @@ public class TipoCuentaDaoJDBC extends SifipDB implements TipoCuentaDao{
 
     @Override
     public boolean delete(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query = "DELETE FROM tipo_cuenta WHERE id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        boolean ret = false;
+        
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            ret = preparedStatement.executeUpdate() == 1;
+            
+        } catch(SQLException ex){
+            Log.error(ex.getMessage());
+            return false;
+        } finally{
+            try { if(preparedStatement != null) preparedStatement.close();} catch(Exception ex){}
+            try { if(connection != null) connection.close();} catch(Exception ex){}
+        }
+        
+        return ret;
     }
 
     @Override
     public List<TipoCuenta> get() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<TipoCuenta> lista = new ArrayList<TipoCuenta>();
+        String query = "SELECT * FROM tipo_cuenta ORDER BY id";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                TipoCuenta temporal = this.parseTipoCuenta(resultSet);
+                lista.add(temporal);
+            }
+        } catch(SQLException ex){
+            Log.error(ex.getMessage());
+            return null;
+        } finally{
+            try{ if(resultSet != null)resultSet.close();} catch(Exception ex){}
+            try{ if(preparedStatement != null)preparedStatement.close();} catch(Exception ex){}
+            try{ if(connection != null)connection.close();} catch(Exception ex){}
+        }
+        return lista;
     }
 
     @Override
@@ -97,6 +138,15 @@ public class TipoCuentaDaoJDBC extends SifipDB implements TipoCuentaDao{
     @Override
     public List<TipoCuenta> getByActivo(boolean activo) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    private TipoCuenta parseTipoCuenta(ResultSet resultSet) throws SQLException{
+        TipoCuenta tipoCuenta = new TipoCuenta();
+        tipoCuenta.setId(resultSet.getInt("id"));
+        tipoCuenta.setDescripcion(resultSet.getString("descripcion"));
+        tipoCuenta.setActivo(resultSet.getBoolean("activo"));
+        
+        return tipoCuenta;
     }
     
 }
