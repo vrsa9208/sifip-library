@@ -221,7 +221,32 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
 
     @Override
     public Usuario getByEmailAndPassword(String email, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String query = "SELECT * FROM usuario " +
+                        "WHERE email = ? " +
+                        "AND password = SHA(?)";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Usuario usuario = null;
+        
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, email);
+            preparedStatement.setString(2, password);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                usuario = this.parseUsuario(resultSet);
+            }
+        } catch(SQLException ex){
+            Log.error(ex.getMessage());
+            return null;
+        } finally{
+            try{ if(resultSet != null) resultSet.close();} catch(Exception ex){}
+            try{ if(preparedStatement != null) preparedStatement.close();} catch(Exception ex){}
+            try{ if(connection != null) connection.close();} catch(Exception ex){}
+        }
+        return usuario;
     }
     
 }
