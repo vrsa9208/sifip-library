@@ -5,6 +5,7 @@
  */
 package mx.com.vrsa9208.sifiplibrary.test;
 
+import java.util.List;
 import mx.com.vrsa9208.sifiplibrary.dao.UsuarioDao;
 import mx.com.vrsa9208.sifiplibrary.dao.impl.UsuarioDaoJDBC;
 import mx.com.vrsa9208.sifiplibrary.model.Usuario;
@@ -28,7 +29,8 @@ public class UsuarioTest {
         
         //test.add();
         //test.getById(6);
-        test.delete(1);
+        //test.delete(1);
+        test.get();
     }
     
     public void add(){
@@ -59,5 +61,9 @@ public class UsuarioTest {
     
     public void delete(int id){
         System.out.println(this.dao.delete(id));
+    }
+    
+    public void get(){
+        List<Usuario> usuarios = this.dao.get();
     }
 }

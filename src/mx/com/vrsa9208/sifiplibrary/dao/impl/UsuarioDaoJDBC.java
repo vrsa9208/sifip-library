@@ -9,8 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.GregorianCalendar;
+import java.util.ArrayList;
 import java.util.List;
 import mx.com.vrsa9208.sifiplibrary.dao.SifipDB;
 import mx.com.vrsa9208.sifiplibrary.dao.UsuarioDao;
@@ -98,7 +97,28 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
 
     @Override
     public List<Usuario> get() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        ArrayList<Usuario> lista = new ArrayList<Usuario>();
+        String query = "SELECT * FROM usuario ORDER BY id";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                Usuario temporal = this.parseUsuario(resultSet);
+                lista.add(temporal);
+            }
+        } catch(Exception ex){
+            return null;
+        } finally{
+            try{ if(resultSet != null)resultSet.close();} catch(Exception ex){}
+            try{ if(preparedStatement != null)preparedStatement.close();} catch(Exception ex){}
+            try{ if(connection != null)connection.close();} catch(Exception ex){}
+        }
+        return lista;
     }
 
     @Override
@@ -115,15 +135,7 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
             preparedStatement.setInt(1, id);
             resultSet = preparedStatement.executeQuery();
             if(resultSet.next()){
-                usuario = new Usuario();
-                usuario.setId(resultSet.getInt("id"));
-                usuario.setNombre(resultSet.getString("nombre"));
-                usuario.setPrimerApellido(resultSet.getString("primer_apellido"));
-                usuario.setSegundoApellido(resultSet.getString("segundo_apellido"));
-                usuario.setEmail(resultSet.getString("email"));
-                usuario.setPassword(null);
-                usuario.setFechaCreacion(DateHelper.dateToGregorianCalendar(resultSet.getDate("fecha_creacion")));
-                usuario.setActivo(resultSet.getBoolean("activo"));
+                usuario = this.parseUsuario(resultSet);
             }
         } catch(SQLException ex){
             Log.error(ex.getMessage());
@@ -133,6 +145,19 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
             try{ if(preparedStatement != null) preparedStatement.close();} catch(Exception ex){}
             try{ if(connection != null) connection.close();} catch(Exception ex){}
         }
+        return usuario;
+    }
+    
+    private Usuario parseUsuario(ResultSet resultSet) throws SQLException{
+        Usuario usuario = new Usuario();
+        usuario.setId(resultSet.getInt("id"));
+        usuario.setNombre(resultSet.getString("nombre"));
+        usuario.setPrimerApellido(resultSet.getString("primer_apellido"));
+        usuario.setSegundoApellido(resultSet.getString("segundo_apellido"));
+        usuario.setEmail(resultSet.getString("email"));
+        usuario.setPassword(null);
+        usuario.setFechaCreacion(DateHelper.dateToGregorianCalendar(resultSet.getDate("fecha_creacion")));
+        usuario.setActivo(resultSet.getBoolean("activo"));
         return usuario;
     }
     
