@@ -7,6 +7,7 @@ package mx.com.vrsa9208.sifiplibrary.test;
 
 import mx.com.vrsa9208.sifiplibrary.dao.UsuarioDao;
 import mx.com.vrsa9208.sifiplibrary.dao.impl.UsuarioDaoJDBC;
+import mx.com.vrsa9208.sifiplibrary.model.Usuario;
 
 /**
  *
@@ -28,6 +29,12 @@ public class UsuarioTest {
     }
     
     public void add(){
-        this.dao.add(null);
+        Usuario usuario = new Usuario();
+        usuario.setNombre("Omar");
+        usuario.setPrimerApellido("Santiago");
+        usuario.setSegundoApellido("Sánchez");
+        //usuario.setEmail("olss@gmail.com");
+        usuario.setPassword("12345");
+        this.dao.add(usuario);
     }
 }
