@@ -63,7 +63,7 @@ public class CategoriaDaoJDBC extends SifipDB implements CategoriaDao{
     public Categoria update(Categoria categoria) {
         String query = "UPDATE categoria " +
                         "SET descripcion = ?, " +
-                        "activo = ?" +
+                        "activo = ? " +
                         "WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
