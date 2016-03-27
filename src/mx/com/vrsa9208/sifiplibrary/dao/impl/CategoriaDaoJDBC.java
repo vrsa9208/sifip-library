@@ -21,6 +21,15 @@ import mx.com.vrsa9208.sifiplibrary.util.Log;
  * @author vrsa9208
  */
 public class CategoriaDaoJDBC extends SifipDB implements CategoriaDao{
+    
+    private static CategoriaDaoJDBC instance;
+    
+    private CategoriaDaoJDBC(){}
+    
+    public static CategoriaDaoJDBC getInstance(){
+        if(instance == null) instance = new CategoriaDaoJDBC();
+        return instance;
+    }
 
     @Override
     public Categoria add(Categoria categoria) {
