@@ -21,6 +21,7 @@ public class Usuario {
     private String password;
     private Calendar fechaCreacion;
     private boolean activo;
+    private int id_perfil;
 
     /**
      * @return the id
@@ -132,6 +133,20 @@ public class Usuario {
      */
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    /**
+     * @return the id_perfil
+     */
+    public int getId_perfil() {
+        return id_perfil;
+    }
+
+    /**
+     * @param id_perfil the id_perfil to set
+     */
+    public void setId_perfil(int id_perfil) {
+        this.id_perfil = id_perfil;
     }
     
 }

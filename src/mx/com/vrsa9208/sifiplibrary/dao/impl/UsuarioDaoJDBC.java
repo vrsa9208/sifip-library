@@ -35,8 +35,8 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
     @Override
     public Usuario add(Usuario usuario) {
         String query = "INSERT INTO Usuario(nombre, primer_apellido, segundo_apellido, " +
-                        "email, password, fecha_creacion) " +
-                        "VALUES(?, ?, ?, ?, SHA(?), ?)";
+                        "email, password, fecha_creacion, id_perfil) " +
+                        "VALUES(?, ?, ?, ?, SHA(?), ?, ?)";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -50,6 +50,7 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
            preparedStatement.setString(4, usuario.getEmail());
            preparedStatement.setString(5, usuario.getPassword());
            preparedStatement.setString(6, DateHelper.getStringDateNow());
+           preparedStatement.setInt(7, usuario.getId_perfil());
            preparedStatement.execute();
            resultSet = preparedStatement.getGeneratedKeys();
            resultSet.next();
@@ -73,7 +74,8 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
                         "primer_apellido = ?, " +
                         "segundo_apellido = ?, " +
                         "email = ?, " +
-                        "activo = ? " +
+                        "activo = ?, " +
+                        "id_perfil = ? " +
                         "WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -87,7 +89,8 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
             preparedStatement.setString(3, usuario.getSegundoApellido());
             preparedStatement.setString(4, usuario.getEmail());
             preparedStatement.setBoolean(5, usuario.isActivo());
-            preparedStatement.setInt(6, usuario.getId());
+            preparedStatement.setInt(6, usuario.getId_perfil());
+            preparedStatement.setInt(7, usuario.getId());
             if(preparedStatement.executeUpdate() == 1) operacionExitosa = true;
             
         } catch(SQLException ex){
@@ -186,6 +189,7 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
         usuario.setPrimerApellido(resultSet.getString("primer_apellido"));
         usuario.setSegundoApellido(resultSet.getString("segundo_apellido"));
         usuario.setEmail(resultSet.getString("email"));
+        usuario.setId_perfil(resultSet.getInt("id_perfil"));
         usuario.setPassword(null);
         usuario.setFechaCreacion(DateHelper.dateToGregorianCalendar(resultSet.getDate("fecha_creacion")));
         usuario.setActivo(resultSet.getBoolean("activo"));
