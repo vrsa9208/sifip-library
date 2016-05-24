@@ -24,7 +24,7 @@ public class TipoMovimientoDaoJDBC extends SifipDB implements TipoMovimientoDao{
 
     @Override
     public TipoMovimiento add(TipoMovimiento tipoMovimiento) {
-        String query = "INSERT INTO tipo_movimiento(descripcion) " +
+        String query = "INSERT INTO Tipo_Movimiento(descripcion) " +
                         "VALUES(?);";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -52,7 +52,7 @@ public class TipoMovimientoDaoJDBC extends SifipDB implements TipoMovimientoDao{
 
     @Override
     public TipoMovimiento update(TipoMovimiento tipoMovimiento) {
-        String query = "UPDATE tipo_movimiento " +
+        String query = "UPDATE Tipo_Movimiento " +
                         "SET descripcion = ?, " +
                         "activo = ?" +
                         "WHERE id = ?";
@@ -81,7 +81,7 @@ public class TipoMovimientoDaoJDBC extends SifipDB implements TipoMovimientoDao{
 
     @Override
     public boolean delete(int id) {
-        String query = "DELETE FROM tipo_movimiento WHERE id = ?";
+        String query = "DELETE FROM Tipo_Movimiento WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         boolean ret = false;
@@ -106,7 +106,7 @@ public class TipoMovimientoDaoJDBC extends SifipDB implements TipoMovimientoDao{
     @Override
     public List<TipoMovimiento> get() {
         ArrayList<TipoMovimiento> lista = new ArrayList<TipoMovimiento>();
-        String query = "SELECT * FROM tipo_movimiento ORDER BY id";
+        String query = "SELECT * FROM Tipo_Movimiento ORDER BY id";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -133,7 +133,7 @@ public class TipoMovimientoDaoJDBC extends SifipDB implements TipoMovimientoDao{
     @Override
     public List<TipoMovimiento> getByActivo(boolean activo) {
         ArrayList<TipoMovimiento> lista = new ArrayList<TipoMovimiento>();
-        String query = "SELECT * FROM tipo_movimiento " +
+        String query = "SELECT * FROM Tipo_Movimiento " +
                         "WHERE activo = ? ORDER BY id";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -161,7 +161,7 @@ public class TipoMovimientoDaoJDBC extends SifipDB implements TipoMovimientoDao{
 
     @Override
     public TipoMovimiento getById(int id) {
-        String query = "SELECT * FROM tipo_movimiento WHERE id = ?";
+        String query = "SELECT * FROM Tipo_Movimiento WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

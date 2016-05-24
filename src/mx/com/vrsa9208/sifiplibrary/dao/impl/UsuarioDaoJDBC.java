@@ -34,7 +34,7 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
 
     @Override
     public Usuario add(Usuario usuario) {
-        String query = "INSERT INTO usuario(nombre, primer_apellido, segundo_apellido, " +
+        String query = "INSERT INTO Usuario(nombre, primer_apellido, segundo_apellido, " +
                         "email, password, fecha_creacion) " +
                         "VALUES(?, ?, ?, ?, SHA(?), ?)";
         Connection connection = null;
@@ -68,7 +68,7 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
 
     @Override
     public Usuario update(Usuario usuario) {
-        String query = "UPDATE usuario " +
+        String query = "UPDATE Usuario " +
                         "SET nombre = ?, " +
                         "primer_apellido = ?, " +
                         "segundo_apellido = ?, " +
@@ -103,7 +103,7 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
 
     @Override
     public boolean delete(int id) {
-        String query = "DELETE FROM usuario WHERE id = ?";
+        String query = "DELETE FROM Usuario WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         boolean ret = false;
@@ -128,7 +128,7 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
     @Override
     public List<Usuario> get() {
         ArrayList<Usuario> lista = new ArrayList<Usuario>();
-        String query = "SELECT * FROM usuario ORDER BY id";
+        String query = "SELECT * FROM Usuario ORDER BY id";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -154,7 +154,7 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
 
     @Override
     public Usuario getById(int id) {
-        String query = "SELECT * FROM usuario WHERE id = ?";
+        String query = "SELECT * FROM Usuario WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -194,7 +194,7 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
 
     @Override
     public boolean updatePassword(int id, String password) {
-        String query = "UPDATE usuario " +
+        String query = "UPDATE Usuario " +
                         "SET password = SHA(?) " +
                         "WHERE id = ?";
         Connection connection = null;
@@ -221,7 +221,7 @@ public class UsuarioDaoJDBC extends SifipDB implements UsuarioDao{
 
     @Override
     public Usuario getByEmailAndPassword(String email, String password) {
-        String query = "SELECT * FROM usuario " +
+        String query = "SELECT * FROM Usuario " +
                         "WHERE email = ? " +
                         "AND password = SHA(?)";
         Connection connection = null;

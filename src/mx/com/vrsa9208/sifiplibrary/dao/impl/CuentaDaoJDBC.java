@@ -25,7 +25,7 @@ public class CuentaDaoJDBC extends SifipDB implements CuentaDao{
 
     @Override
     public Cuenta add(Cuenta cuenta) {
-        String query = "INSERT INTO cuenta(descripcion, fecha_creacion, id_usuario, id_tipo_cuenta) " +
+        String query = "INSERT INTO Cuenta(descripcion, fecha_creacion, id_usuario, id_tipo_cuenta) " +
                         "VALUES(?, ?, ?, ?);";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -56,7 +56,7 @@ public class CuentaDaoJDBC extends SifipDB implements CuentaDao{
 
     @Override
     public Cuenta update(Cuenta cuenta) {
-        String query = "UPDATE cuenta " +
+        String query = "UPDATE Cuenta " +
                         "SET descripcion = ?, " +
                         "activo = ?, " +
                         "id_tipo_cuenta = ? " +
@@ -87,7 +87,7 @@ public class CuentaDaoJDBC extends SifipDB implements CuentaDao{
 
     @Override
     public boolean delete(int id) {
-        String query = "DELETE FROM cuenta WHERE id = ?";
+        String query = "DELETE FROM Cuenta WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         boolean ret = false;
@@ -112,7 +112,7 @@ public class CuentaDaoJDBC extends SifipDB implements CuentaDao{
     @Override
     public List<Cuenta> get() {
         ArrayList<Cuenta> lista = new ArrayList<Cuenta>();
-        String query = "SELECT * FROM cuenta ORDER BY id";
+        String query = "SELECT * FROM Cuenta ORDER BY id";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -138,7 +138,7 @@ public class CuentaDaoJDBC extends SifipDB implements CuentaDao{
 
     @Override
     public Cuenta getById(int id) {
-        String query = "SELECT * FROM cuenta WHERE id = ?";
+        String query = "SELECT * FROM Cuenta WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

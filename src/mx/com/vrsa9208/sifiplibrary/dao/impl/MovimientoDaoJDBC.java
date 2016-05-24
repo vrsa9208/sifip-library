@@ -25,7 +25,7 @@ public class MovimientoDaoJDBC extends SifipDB implements MovimientoDao{
 
     @Override
     public Movimiento add(Movimiento movimiento) {
-        String query = "INSERT INTO movimiento(descripcion, fecha_creacion, cantidad, id_tipo_movimiento, id_categoria) " +
+        String query = "INSERT INTO Movimiento(descripcion, fecha_creacion, cantidad, id_tipo_movimiento, id_categoria) " +
                         "VALUES(?, ?, ?, ?, ?);";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -58,7 +58,7 @@ public class MovimientoDaoJDBC extends SifipDB implements MovimientoDao{
 
     @Override
     public Movimiento update(Movimiento movimiento) {
-        String query = "UPDATE movimiento " +
+        String query = "UPDATE Movimiento " +
                         "SET descripcion = ?, " +
                         "cantidad = ?, " +
                         "id_tipo_movimiento = ?, " +
@@ -91,7 +91,7 @@ public class MovimientoDaoJDBC extends SifipDB implements MovimientoDao{
 
     @Override
     public boolean delete(int id) {
-        String query = "DELETE FROM movimiento WHERE id = ?";
+        String query = "DELETE FROM Movimiento WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         boolean ret = false;
@@ -116,7 +116,7 @@ public class MovimientoDaoJDBC extends SifipDB implements MovimientoDao{
     @Override
     public List<Movimiento> get() {
         ArrayList<Movimiento> lista = new ArrayList<Movimiento>();
-        String query = "SELECT * FROM movimiento ORDER BY id";
+        String query = "SELECT * FROM Movimiento ORDER BY id";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -142,7 +142,7 @@ public class MovimientoDaoJDBC extends SifipDB implements MovimientoDao{
 
     @Override
     public Movimiento getById(int id) {
-        String query = "SELECT * FROM movimiento WHERE id = ?";
+        String query = "SELECT * FROM Movimiento WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

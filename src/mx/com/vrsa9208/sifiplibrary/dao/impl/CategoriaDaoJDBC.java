@@ -33,7 +33,7 @@ public class CategoriaDaoJDBC extends SifipDB implements CategoriaDao{
 
     @Override
     public Categoria add(Categoria categoria) {
-        String query = "INSERT INTO categoria(descripcion) " +
+        String query = "INSERT INTO Categoria(descripcion) " +
                         "VALUES(?);";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -61,7 +61,7 @@ public class CategoriaDaoJDBC extends SifipDB implements CategoriaDao{
 
     @Override
     public Categoria update(Categoria categoria) {
-        String query = "UPDATE categoria " +
+        String query = "UPDATE Categoria " +
                         "SET descripcion = ?, " +
                         "activo = ? " +
                         "WHERE id = ?";
@@ -90,7 +90,7 @@ public class CategoriaDaoJDBC extends SifipDB implements CategoriaDao{
 
     @Override
     public boolean delete(int id) {
-        String query = "DELETE FROM categoria WHERE id = ?";
+        String query = "DELETE FROM Categoria WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         boolean ret = false;
@@ -115,7 +115,7 @@ public class CategoriaDaoJDBC extends SifipDB implements CategoriaDao{
     @Override
     public List<Categoria> get() {
         ArrayList<Categoria> lista = new ArrayList<Categoria>();
-        String query = "SELECT * FROM categoria ORDER BY id";
+        String query = "SELECT * FROM Categoria ORDER BY id";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -142,7 +142,7 @@ public class CategoriaDaoJDBC extends SifipDB implements CategoriaDao{
     @Override
     public List<Categoria> getByActivo(boolean activo) {
         ArrayList<Categoria> lista = new ArrayList<Categoria>();
-        String query = "SELECT * FROM categoria " +
+        String query = "SELECT * FROM Categoria " +
                         "WHERE activo = ? ORDER BY id";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -170,7 +170,7 @@ public class CategoriaDaoJDBC extends SifipDB implements CategoriaDao{
 
     @Override
     public Categoria getById(int id) {
-        String query = "SELECT * FROM categoria WHERE id = ?";
+        String query = "SELECT * FROM Categoria WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;

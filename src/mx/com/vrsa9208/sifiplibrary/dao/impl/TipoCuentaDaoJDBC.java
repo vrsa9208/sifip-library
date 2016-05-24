@@ -24,7 +24,7 @@ public class TipoCuentaDaoJDBC extends SifipDB implements TipoCuentaDao{
 
     @Override
     public TipoCuenta add(TipoCuenta tipoCuenta) {
-        String query = "INSERT INTO tipo_cuenta(descripcion) " +
+        String query = "INSERT INTO Tipo_Cuenta(descripcion) " +
                         "VALUES(?);";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -52,7 +52,7 @@ public class TipoCuentaDaoJDBC extends SifipDB implements TipoCuentaDao{
 
     @Override
     public TipoCuenta update(TipoCuenta tipoCuenta) {
-        String query = "UPDATE tipo_cuenta " +
+        String query = "UPDATE Tipo_Cuenta " +
                         "SET descripcion = ?, " +
                         "activo = ?" +
                         "WHERE id = ?";
@@ -81,7 +81,7 @@ public class TipoCuentaDaoJDBC extends SifipDB implements TipoCuentaDao{
 
     @Override
     public boolean delete(int id) {
-        String query = "DELETE FROM tipo_cuenta WHERE id = ?";
+        String query = "DELETE FROM Tipo_Cuenta WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         boolean ret = false;
@@ -106,7 +106,7 @@ public class TipoCuentaDaoJDBC extends SifipDB implements TipoCuentaDao{
     @Override
     public List<TipoCuenta> get() {
         ArrayList<TipoCuenta> lista = new ArrayList<TipoCuenta>();
-        String query = "SELECT * FROM tipo_cuenta ORDER BY id";
+        String query = "SELECT * FROM Tipo_Cuenta ORDER BY id";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -132,7 +132,7 @@ public class TipoCuentaDaoJDBC extends SifipDB implements TipoCuentaDao{
 
     @Override
     public TipoCuenta getById(int id) {
-        String query = "SELECT * FROM tipo_cuenta WHERE id = ?";
+        String query = "SELECT * FROM Tipo_Cuenta WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
@@ -160,7 +160,7 @@ public class TipoCuentaDaoJDBC extends SifipDB implements TipoCuentaDao{
     @Override
     public List<TipoCuenta> getByActivo(boolean activo) {
         ArrayList<TipoCuenta> lista = new ArrayList<TipoCuenta>();
-        String query = "SELECT * FROM tipo_cuenta " +
+        String query = "SELECT * FROM Tipo_Cuenta " +
                         "WHERE activo = ? ORDER BY id";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
