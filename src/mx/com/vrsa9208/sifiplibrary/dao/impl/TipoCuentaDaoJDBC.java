@@ -21,6 +21,15 @@ import mx.com.vrsa9208.sifiplibrary.util.Log;
  * @author Administrador
  */
 public class TipoCuentaDaoJDBC extends SifipDB implements TipoCuentaDao{
+    
+    private static TipoCuentaDaoJDBC instance;
+    
+    private TipoCuentaDaoJDBC(){}
+    
+    public static TipoCuentaDaoJDBC getInstance(){
+        if(instance == null) instance = new TipoCuentaDaoJDBC();
+        return instance;
+    }
 
     @Override
     public TipoCuenta add(TipoCuenta tipoCuenta) {
@@ -54,7 +63,7 @@ public class TipoCuentaDaoJDBC extends SifipDB implements TipoCuentaDao{
     public TipoCuenta update(TipoCuenta tipoCuenta) {
         String query = "UPDATE Tipo_Cuenta " +
                         "SET descripcion = ?, " +
-                        "activo = ?" +
+                        "activo = ? " +
                         "WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;

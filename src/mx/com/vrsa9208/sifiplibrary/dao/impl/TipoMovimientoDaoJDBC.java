@@ -21,6 +21,15 @@ import mx.com.vrsa9208.sifiplibrary.util.Log;
  * @author vrsa9208
  */
 public class TipoMovimientoDaoJDBC extends SifipDB implements TipoMovimientoDao{
+    
+    private static TipoMovimientoDaoJDBC instance;
+    
+    private TipoMovimientoDaoJDBC(){}
+    
+    public static TipoMovimientoDaoJDBC getInstance(){
+        if(instance == null) instance = new TipoMovimientoDaoJDBC();
+        return instance;
+    }
 
     @Override
     public TipoMovimiento add(TipoMovimiento tipoMovimiento) {
@@ -54,7 +63,7 @@ public class TipoMovimientoDaoJDBC extends SifipDB implements TipoMovimientoDao{
     public TipoMovimiento update(TipoMovimiento tipoMovimiento) {
         String query = "UPDATE Tipo_Movimiento " +
                         "SET descripcion = ?, " +
-                        "activo = ?" +
+                        "activo = ? " +
                         "WHERE id = ?";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
