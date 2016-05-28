@@ -17,4 +17,5 @@ public interface PresupuestoDao {
     Presupuesto update(Presupuesto presupuesto);
     boolean delete(int id);
     List<Presupuesto> get();
+    Presupuesto getById(int id);
 }

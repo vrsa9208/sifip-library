@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import mx.com.vrsa9208.sifiplibrary.dao.PresupuestoDao;
 import mx.com.vrsa9208.sifiplibrary.dao.SifipDB;
+import mx.com.vrsa9208.sifiplibrary.model.Categoria;
 import mx.com.vrsa9208.sifiplibrary.model.Presupuesto;
 import mx.com.vrsa9208.sifiplibrary.util.DateHelper;
 import mx.com.vrsa9208.sifiplibrary.util.Log;
@@ -154,6 +155,33 @@ public class PresupuestoDaoJDBC extends SifipDB implements PresupuestoDao{
         presupuesto.setIdUsuario(resultSet.getInt("id_usuario"));
         presupuesto.setFechaInicio(DateHelper.dateToGregorianCalendar(resultSet.getDate("fecha_inicio")));
         presupuesto.setFechaFin(DateHelper.dateToGregorianCalendar(resultSet.getDate("fecha_fin")));
+        return presupuesto;
+    }
+
+    @Override
+    public Presupuesto getById(int id) {
+        String query = "SELECT * FROM Presupuesto WHERE id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        Presupuesto presupuesto = null;
+        
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            if(resultSet.next()){
+                presupuesto = this.parsePresupuesto(resultSet);
+            }
+        } catch(SQLException ex){
+            Log.error(ex.getMessage());
+            return null;
+        } finally{
+            try{ if(resultSet != null) resultSet.close();} catch(Exception ex){}
+            try{ if(preparedStatement != null) preparedStatement.close();} catch(Exception ex){}
+            try{ if(connection != null) connection.close();} catch(Exception ex){}
+        }
         return presupuesto;
     }
 }
