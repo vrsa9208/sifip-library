@@ -184,4 +184,32 @@ public class PresupuestoDaoJDBC extends SifipDB implements PresupuestoDao{
         }
         return presupuesto;
     }
+
+    @Override
+    public List<Presupuesto> getByIdUsuario(int id) {
+        ArrayList<Presupuesto> lista = new ArrayList<Presupuesto>();
+        String query = "SELECT * FROM Presupuesto WHERE id_usuario = ? ORDER BY id";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                Presupuesto temporal = this.parsePresupuesto(resultSet);
+                lista.add(temporal);
+            }
+        } catch(SQLException ex){
+            Log.error(ex.getMessage());
+            return null;
+        } finally{
+            try{ if(resultSet != null)resultSet.close();} catch(Exception ex){}
+            try{ if(preparedStatement != null)preparedStatement.close();} catch(Exception ex){}
+            try{ if(connection != null)connection.close();} catch(Exception ex){}
+        }
+        return lista;
+    }
 }

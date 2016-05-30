@@ -19,5 +19,6 @@ public interface MovimientoDao {
     boolean delete(int id);
     List<Movimiento> get();
     Movimiento getById(int id);
+    List<Movimiento> getByPresupuestoId(int id);
     
 }

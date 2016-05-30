@@ -178,4 +178,35 @@ public class MovimientoDaoJDBC extends SifipDB implements MovimientoDao{
         
         return movimiento;
     }
+
+    @Override
+    public List<Movimiento> getByPresupuestoId(int id) {
+        ArrayList<Movimiento> lista = new ArrayList<Movimiento>();
+        String query = "SELECT m.* FROM Movimiento m\n" +
+                        "INNER JOIN Registro_Presupuesto rp ON rp.id_movimiento = m.id\n" +
+                        "INNER JOIN Presupuesto p ON rp.id_presupuesto = p.id\n" +
+                        "WHERE p.id = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        
+        try{
+            connection = dataSource.getConnection();
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setInt(1, id);
+            resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+                Movimiento temporal = this.parseMovimiento(resultSet);
+                lista.add(temporal);
+            }
+        } catch(SQLException ex){
+            Log.error(ex.getMessage());
+            return null;
+        } finally{
+            try{ if(resultSet != null)resultSet.close();} catch(Exception ex){}
+            try{ if(preparedStatement != null)preparedStatement.close();} catch(Exception ex){}
+            try{ if(connection != null)connection.close();} catch(Exception ex){}
+        }
+        return lista;
+    }
 }
